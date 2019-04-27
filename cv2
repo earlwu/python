@@ -1,0 +1,38 @@
+#mean convert
+def mean_convert(image):
+    mean = image.mean()
+
+    cv = image.copy()
+    for i in range(len(image)):
+        for j in range(len(image[i])):
+            new_value = (255.0 / 2.0) / mean * image[i][j]
+            if new_value > 255:
+                cv[i][j] = 255
+            else:
+                cv[i][j] = new_value
+
+    return cv
+
+#gamma convert
+def gamma_convert(image, gamma=1.0):
+    invGamma = 1.0 / gamma
+    
+    table = np.array([((i / 255.0) ** invGamma) * 255
+        for i in np.arange(0, 256)]).astype("uint8")
+        
+    return cv2.LUT(image, table)
+    
+#sigmoid convert
+def sigmoid_set(x,k):
+    return 1 / (1 + np.exp((k / 2) - (k * x)))
+
+def sigmoid_table(k):
+    table = np.array([sigmoid((i / 255.0),k) * 255
+        for i in np.arange(0, 256)]).astype("uint8")
+
+    return table
+    
+def sigmoid_convert(image,sigmoid_table):        
+    return cv2.LUT(image, sigmoid_table)
+    
+#
