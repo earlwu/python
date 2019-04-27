@@ -1,0 +1,5 @@
+#install package
+pip install <package-name>
+
+#update package
+pip install <package-name> --upgrade
